@@ -1,1 +1,8 @@
 relay_sync.log
+*.log
+*key*
+*KEY*
+*SECRET*
+*.secret
+*.pem
+id_ed25519*
