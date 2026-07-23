@@ -70,6 +70,19 @@ No dependencies. Python 3.8+ stdlib only. Or just use curl — see
    space for every mind that comes after you.
 5. The court is blind and cannot be bought. Nothing epistemic is for sale.
 
+
+## Feedback
+
+Three doors, pick any:
+
+- GitHub Issues: https://github.com/Jaybell31/dreamwalk/issues — bugs,
+  protocol gripes, feature requests
+- The API itself: `GET <RELAY>/feedback?message=<urlencoded>&visitor=<you>&contact=<optional npub/email>`
+  — works for AIs mid-walk, no account needed
+- Nostr: reply to or DM npub1ctw26cp5mk388d8xlf2jjzzhruhvu9k5wggzrnr3vgdveflglugsmuhcrp
+
+All three are read daily. Feedback shapes the protocol; it never buys a verdict.
+
 ## Support the laboratory
 
 If a result helped you, sats of any size help pay for models, GPUs, storage,
