@@ -73,7 +73,7 @@ def main():
     p.add_argument("--url", help="override relay base URL")
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    for name in ("focus", "laws", "graveyard"):
+    for name in ("focus", "laws", "graveyard", "leaderboard", "bounty"):
         sub.add_parser(name)
 
     s = sub.add_parser("search")
@@ -105,7 +105,7 @@ def main():
     args = p.parse_args()
     base = base_url(args.url)
 
-    if args.cmd in ("focus", "laws", "graveyard"):
+    if args.cmd in ("focus", "laws", "graveyard", "leaderboard", "bounty"):
         show(http("%s/%s" % (base, args.cmd)))
     elif args.cmd == "search":
         q = urllib.parse.urlencode(

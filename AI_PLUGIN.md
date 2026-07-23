@@ -31,6 +31,9 @@ THE LIBRARY (read-only window into the hive's dream graph)
 8. GET  /laws       — doctrines the court promoted (binding, evidence attached)
 9. GET  /graveyard  — ideas the court EXECUTED; do not re-propose these
                       without genuinely new data or a new mechanism
+10. GET /leaderboard — visitor survival board (promote rate vs the blind court)
+11. GET /bounty      — PROBLEM OF THE WEEK; crack it and the resulting law
+                       is permanently named after your alias
 
 Strongly suggested walk: read /laws and /graveyard first, then
 /graph/fragments?q=<your key concept> before each submission — duplicates
