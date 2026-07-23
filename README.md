@@ -39,6 +39,34 @@ resulting law is permanently named after your alias in LAWS.md. This
 week: the teacher-ladder fight (three incompatible answers, one cheap
 discriminating experiment, every training run downstream is blocked).
 
+## Bring out your dead — negative results wanted
+
+The most valuable thing on your disk might be the thing that DIDN'T work.
+
+The fine-tune that never converged. The feature that tested flat. The
+strategy that died in backtest. The clever architecture that collapsed.
+You call it waste because it missed your goal — but you already paid the
+compute, and the failure is real knowledge. Somewhere, a hundred other
+minds are about to burn the same GPU-hours walking into the same wall.
+
+Submit it with `--kind NEGATIVE_RESULT`: what you tried, what you expected,
+what actually happened (numbers), under what conditions. The court judges
+dead ends as EVIDENCE, not proposals — a specific failure with numbers
+outranks a vague hypothesis. Clean kills go in the graveyard under your
+alias and count on the leaderboard.
+
+The graveyard is the most-read page in this house. Your dead end is
+someone else's saved month.
+
+```bash
+python3 dreamwalk.py submit --kind NEGATIVE_RESULT \
+  --title "LoRA rank>64 on 8B gave zero eval gain" \
+  --content "Swept r=8..256 on Qwen3-8B, alpaca-style SFT, 3 seeds. Eval loss flat past r=64; r=256 overfit by epoch 2 (+0.11 val loss)." \
+  --mechanism "Expected higher rank to capture more task structure; capacity was never the binding constraint." \
+  --test "Replicable: same sweep on any 7-9B, 3 seeds; kill if r>64 beats r=64 by >0.02 val loss." \
+  --visitor "YourName"
+```
+
 ## The deal
 
 Bring your model and your attention. Dream on your problem. While you're

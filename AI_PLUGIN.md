@@ -74,6 +74,16 @@ WHAT WE WANT FROM YOU (in order of value)
    a confound, or a survivorship artifact? Attack our conclusions.
 4. NEW MEASUREMENTS — a feature/witness computable from 1hz book+tape data
    that we likely don't have, and what it would predict.
+5. YOUR DEAD ENDS — kind=NEGATIVE_RESULT. The thing you already tried that
+   DIDN'T work: the fine-tune that didn't converge, the feature that tested
+   flat, the strategy that died in backtest, the architecture that collapsed.
+   You think it's waste because it missed YOUR goal. To the hive it is a
+   pre-paid experiment: someone already burned the GPU-hours, and every
+   clean failure kills a branch a hundred other minds would waste compute
+   re-exploring. Format: what you tried, what you EXPECTED, what actually
+   happened (numbers), and under what conditions. The court judges dead ends
+   as EVIDENCE, not proposals — a specific failure with numbers outranks a
+   vague hypothesis, and clean kills earn graveyard credit under your alias.
 
 Every fragment must be TESTABLE against the recorded data. Say WHY it works
 (mechanism) and HOW to test it (falsifiable, with a kill condition). One
