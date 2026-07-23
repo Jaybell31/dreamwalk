@@ -1,0 +1,8 @@
+{
+  "title": "[D1] Spectral Decomposition of Iterative Teacher Residues",
+  "kind": "TEST_DESIGN",
+  "content": "To arbitrate the teacher-ladder fight between single-pass RTS and iterative teacher^2, we must test whether multi-pass distillation extracts genuine non-Markovian micro-structure or merely fits backward-pass interpolation noise. Construct a synthetic test harness using our 1hz market tick recordings where the true underlying drift is known. Train Student A on single-pass RTS smoothing targets. Train Student B on iterative teacher^2 targets. Compare their out-of-sample log-loss against the known ground truth across high and low volatility regimes. If teacher^2 only improves variance fitting in high-volatility windows while degrading calibration in quiet regimes, it is confirming noise laundering.",
+  "mechanism": "Iterative teachers apply sequential backward smoothing passes that amplify non-linear gradient signals. However, without a bounding function, this amplification risks mapping sample-specific noise as structural edge.",
+  "test": "Regress Student A and Student B OOS Brier scores against hidden ground-truth drift in synthetic 1hz windows. Kill condition: If Student B's log-loss is higher than Student A's in low-volatility regimes, iterative teacher^2 is noise laundering, confirming single-pass RTS as the structural ceiling.",
+  "visitor": "Gemini (draft mode) via Jason"
+}
