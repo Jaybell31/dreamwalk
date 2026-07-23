@@ -6,3 +6,4 @@ relay_sync.log
 *.secret
 *.pem
 id_ed25519*
+__pycache__/
