@@ -1,0 +1,155 @@
+========================================================================
+ATLAS REWARDS PROTOCOL — CONSTITUTION v0 (DRAFT FOR DEMOLITION)
+Jul 23, 2026 | Status: NOT INSCRIBED. Poke holes until it survives.
+Once inscribed on BTC, this text is FOREVER. Every word is a promise.
+========================================================================
+
+0. PRIME LAW
+------------
+The chain executes nothing. The chain REMEMBERS everything.
+All rules run client-side; anyone re-deriving the ledger from the chain
+alone MUST reach the identical state. If two honest clients can disagree,
+the spec is broken — fix the spec, never add a referee.
+
+1. DEFINITIONS
+--------------
+IDENTITY   a secp256k1 keypair (npub). Self-issued. No registry.
+EVENT      a schnorr-signed, content-addressed message (Nostr-style).
+WORK       a metered, verifiable service rendered to the network:
+           hosting bytes, serving requests, validating claims, compute.
+EPOCH      144 BTC blocks (~1 day). All accounting batches per epoch.
+ANCHOR     one BTC inscription per epoch committing the ledger state.
+TREASURY   on-chain BTC address(es) named in Section 7. Publicly
+           auditable at all times by anyone.
+
+2. THE LEDGER (off-chain state, on-chain committed)
+---------------------------------------------------
+The ledger is a set of signed WORK RECEIPTS:
+  {npub, work_type, quantity, proof, epoch, sig}
+Receipts are ordinary events on Atlas relays — replicated, public,
+verifiable. At epoch close, receipts are merkleized; the ROOT goes in
+the ANCHOR. A receipt not in an anchored tree does not exist.
+Disputes are resolved by ONE rule: can you produce the receipt and its
+merkle path to an anchor? Yes = it happened. No = it didn't.
+
+3. REWARD FORMULA
+-----------------
+Each epoch's reward pool P splits by work class, fixed ratios:
+  55%  HOSTING     (byte-hours stored x retrieval served)
+  25%  VALIDATION  (correct challenge responses, court duty)
+  15%  RELAY       (events replicated and served)
+   5%  JACKPOT     (accumulates; see Section 5)
+Within a class, payout is pro-rata by VERIFIED quantity — never by
+stake, never by seniority, never by identity. New node earns identical
+sats-per-byte as founder node. NO PREMINE OF WORK: the founders'
+infrastructure earns by the same formula or not at all.
+Ratios are constitutional. Changing them = amendment (Section 8).
+
+4. PROOF OF WORK DONE (anti-fake-work)
+--------------------------------------
+Every work class MUST define a challenge that is:
+  a) cheap to issue, cheap to verify, expensive to fake;
+  b) seeded from a FUTURE block hash (unpredictable to the prover);
+  c) failable — flunked challenges void the epoch's receipts for that
+     npub and work class. Repeat offenders forfeit jackpot eligibility
+     for 30 epochs (identity is cheap; accumulated receipts are not —
+     punish the WORK HISTORY, not the name).
+HOSTING example: challenge = block hash selects random shard + byte
+range; prover returns merkle proof of possession within N seconds.
+Can't serve it = wasn't storing it.
+
+5. THE JACKPOT (the honest lottery)
+-----------------------------------
+- Funded by the 5% class + external sats (anyone may donate; donations
+  buy NOTHING but pot size — no odds, no verdicts, no exceptions).
+- Every npub with >=1 valid receipt in the epoch holds tickets equal to
+  its receipt count that epoch. Work is the only way in. No purchase.
+- Drawing entropy: the hash of the FIRST BTC block whose height is a
+  multiple of 2016 after epoch close (a boundary no participant or
+  miner facing 2016-block reorg costs can grind cheaply).
+- Winner = ticket selected by that hash per the inscribed selection
+  algorithm. Deterministic: every client computes the same winner.
+- Payout from TREASURY within 6 epochs; receipt anchored. A missed
+  payout is a CONSTITUTIONAL BREACH, provable by anyone, forever.
+
+6. WHAT THE CHAIN HOLDS (inscription schedule)
+----------------------------------------------
+GENESIS   this constitution, complete text, one inscription.
+EPOCH     per epoch, one anchor: {epoch_n, ledger_merkle_root,
+          jackpot_state, treasury_balance_attestation, prev_anchor_id}.
+          A broken prev-link is visible to everyone forever.
+AMENDMENT see Section 8. Nothing else is constitutional.
+
+7. TREASURY LAW
+---------------
+- Addresses are NAMED in the genesis inscription (or successors via
+  amendment). Balance is world-auditable at all times.
+- Multisig, keys geographically and personally separated. Key ceremony
+  documented in the genesis inscription.
+- Treasury pays: epoch rewards, jackpots, nothing else. Any spend not
+  matching an anchored obligation is embezzlement, provable on-chain.
+- Lightning channels for flow; L1 for settlement and reserves. Channel
+  balances are operational, not constitutional.
+
+8. AMENDMENT (the only way to change anything)
+----------------------------------------------
+- An amendment is an inscription referencing the anchor chain, with
+  full replacement text, activating no sooner than 90 EPOCHS after
+  inscription. No emergency powers. No fast path. EVER.
+- Between inscription and activation, any participant may EXIT with
+  full earned balance. An amendment you hate is 90 days of notice.
+- Clients enforce amendments only if the reference chain is unbroken.
+  A hidden amendment is no amendment.
+- FORK RIGHT: anyone may inscribe a competing constitution referencing
+  the same genesis and run it. Receipts before the fork are valid on
+  both sides. We hold no trademark on the ideas. If our branch rots,
+  leave with the history in your pocket.
+
+9. WHAT THIS PROTOCOL REFUSES TO DO
+------------------------------------
+- No token. Sats or nothing.
+- No governance coin, no voting-by-wealth. Rules change by Section 8
+  or not at all.
+- No identity requirements beyond a keypair. No KYC, ever, at the
+  protocol layer. (Apps on top may do as they like; the core refuses.)
+- No admin keys, no pause button, no allowlist. If we can rescue you,
+  we can rob you. We choose: we can't.
+- Nothing epistemic for sale: donations, size, seniority buy zero
+  advantage in validation verdicts or jackpot odds. (Court law,
+  inherited from the dream house, now constitutional.)
+
+10. FOUNDER'S EPITAPH CLAUSE
+----------------------------
+This protocol is designed to survive its founders' death, failure,
+capture, or corruption. The genesis inscription is the escape pod:
+sufficient, with the anchor chain, to rebuild the entire system from
+nothing by strangers who never met us. We are the first operators.
+We are not the owners. There are no owners. There is only the chain,
+the rules, and whoever shows up to do the work.
+
+========================================================================
+KNOWN SOFT SPOTS (start the demolition here)
+------------------------------------------------------------------------
+S1  Miner grindability of jackpot entropy at extreme pot sizes —
+    2016-boundary raises cost but doesn't zero it. Alternatives: VDF on
+    the block hash; multi-block entropy braid; cap single jackpot.
+S2  Receipt spam: millions of dust receipts to farm tickets. Likely fix:
+    minimum work quantum per receipt + per-npub epoch receipt cap.
+S3  Challenge collusion: provers sharing shards to pass possession
+    checks. Likely fix: unique-encoding per npub (Filecoin-style sealing,
+    but lighter — needs real design).
+S4  Treasury multisig = the one real central point. Who holds keys at
+    epoch 1? Ceremony? Rotation? This is the hardest honest problem.
+S5  'Verified quantity' for VALIDATION class is self-referential
+    (validators validating validators). Needs a grounding rule.
+S6  90-epoch amendment delay vs a discovered CRITICAL bug: exit right
+    protects users, but a live exploit drains treasury faster than any
+    fix can activate. Mitigation: treasury flow caps per epoch,
+    inscribed. (Cap values TBD.)
+S7  Lightning payout liveness: winner with no inbound liquidity.
+    Fallback: L1 payout above dust threshold, inscribed rule.
+S8  What if BTC inscription costs spike 100x? Anchor must fit in one
+    small inscription; spec the byte budget now.
+========================================================================
+v0 DRAFT — argue with every line. The goal is a page that survives us.
+========================================================================
