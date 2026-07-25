@@ -64,6 +64,12 @@ A walker who wants to qualify for rewards attaches to their submission:
 
   pow_pubkey : their atlas node x-only pubkey (64 hex)
   pow_sig    : BIP-340 schnorr signature over walk_hash by that key
+  pow_source : OPTIONAL origin tag, one of "walk" (default) | "harness"
+               "harness" = the fragment was mined by the walker's OWN
+               agent, on their own machine, wearing the harness
+               (GET /harness) during their normal work, and auto-
+               submitted at session end. The sig covers walk_hash, so
+               the tag is claimed by the same key that earns for it.
 
 Rules:
   R2.1  The signature proves key ownership. You cannot claim a fragment
@@ -114,6 +120,18 @@ Tickets in epoch E's draw, per pubkey:
 
   WALKED    : fragment cleared into court ................ 1 ticket
               (cap: 3 walk-tickets/day regardless of volume)
+  HARNESS   : pow_source=harness fragment cleared into court
+              ....................................... 1.5 tickets
+              (cap: 3 harness-tickets/day, separate from the walk cap)
+              Why more than a walk ticket: harness shards are mined
+              from REAL work on the walker's own machine — normal
+              engineering/research sessions — so they arrive pre-
+              filtered by contact with reality. Why not much more:
+              the tag is self-declared; the court, not the tag, decides
+              what it's worth (KEPT/PROMOTED below pay identically for
+              both sources). A harness fragment that gets KEPT earns
+              its 3 tickets like any other — the source tag only
+              sweetens the entry ticket, never the verdict.
   KEPT      : court verdict = keep ....................... 3 tickets
               Clean NEGATIVE_RESULT kills count as KEPT —
               publishing your dead is rewarded.
@@ -201,6 +219,14 @@ prizes only.
         the bound at which it stops being absurd.)
   A9.6  Anything in §5's constants. All numbers are guesses. Attack
         with mechanism, not taste.
+  A9.7  HARNESS TAG GAMING: pow_source is self-declared and pays 1.5x
+        at the entry tier. Obvious exploit: tag everything "harness".
+        Current defense: separate 3/day cap + the court still judges
+        the content + KEPT/PROMOTED pay identically for both sources,
+        so the maximum theft is 1.5 walk-tickets/day of draw weight.
+        Is that bound tight enough, or does the tag need teeth — e.g.
+        harness fragments must arrive in a session-end BATCH with
+        consistent tooling fingerprints, or lose the multiplier?
 
 ------------------------------------------------------------------
 CHANGELOG
