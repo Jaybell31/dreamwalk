@@ -10,11 +10,14 @@ and ATLAS_BANDWIDTH_ECONOMY_v0. Same laws apply.
 ------------------------------------------------------------------
 The atlas node in your pocket: a phone app that is (a) a mesh member,
 (b) a Lightning wallet holding your walk/hosting earnings, and (c) a
-spend rail — tap your phone at any store that takes Apple Pay or
-Google Pay and pay from your sats. A small FX spread on each spend
-feeds the epoch pool. Earn sats by thinking (walks) or hosting
-(custody); spend them on coffee; the spread funds the next prize.
-The economy closes its own loop.
+sovereign spend rail — tap phone-to-phone or phone-to-tag and pay in
+sats directly, no card networks, no banks, no app stores. We use the
+HARDWARE (NFC, secure element, camera) and run our OWN software on
+it, distributed over Tor and verified against Bitcoin. A small
+network fee on each spend feeds the epoch pool. Earn sats by
+thinking (walks) or hosting (custody); spend them on coffee; the
+fee funds the next prize. The economy closes its own loop and no
+outside party can turn any part of it off.
 
 ------------------------------------------------------------------
 1. THE PHONE NODE (honest tiering)
@@ -37,68 +40,154 @@ a MEMBER, not a CARRIER:
         gossiped like everything else.
 
 ------------------------------------------------------------------
-2. THE SPEND RAIL (where honesty is mandatory)
+2. THE SPEND RAIL (sovereign — we go around the card networks)
 ------------------------------------------------------------------
-Apple Pay / Google Pay acceptance means a CARD gets provisioned into
-the phone's wallet. Cards mean an ISSUER, a BIN sponsor, and KYC at
-the fiat boundary. There is no permissionless path through Visa/MC —
-anyone who claims otherwise is selling something.
+v0 routed spending through Apple Pay / Google Pay. DELETED in v0.2:
+cards mean an issuer, a BIN sponsor, and KYC — a permanent admin key
+over the whole economy. Instead we use the HARDWARE (NFC radio,
+secure element, camera) and build our OWN software on it.
 
-  R2.1  The mesh side stays sovereign: sats live in the user's own
-        LN/ecash balance (bearer tickets from BW §4 double as the
-        spend balance). The ISSUER never custodies idle sats.
-  R2.2  At tap time: spend amount converts sat->fiat at spot + a
-        continuous FX spread f (target ~1%, see §3), the issuer
-        settles the merchant in fiat, the user's sats debit over LN
-        in real time. Strike/Fold/Pouch proved this flow works.
-  R2.3  The issuer is a PLUGGABLE, REPLACEABLE partner — the app
-        ships with N issuer integrations, the user picks, and the
-        mesh survives any issuer dying or defecting. The chokepoint
-        is acknowledged, contained, and interchangeable. KYC scope
-        is the card only, never the node identity: pow_pubkey and
-        card identity are never linked in any mesh data structure.
-  R2.4  LAW: the mesh NEVER holds fiat, never touches the card PAN,
-        never learns what you bought. Purchase metadata dies at the
-        issuer boundary (their regulatory burden, not our data).
+  R2.1  ATLAS PAY, phone-to-phone: the merchant runs the same app.
+        Customer taps the merchant's phone (or any NFC tag / QR
+        code) — the tap carries a signed LN/BOLT12 payment request,
+        the customer's app pays it from their sat balance over
+        Lightning. Settlement is instant, final, and fee-light.
+        No issuer, no PAN, no KYC, no chargebacks. Android's HCE
+        (host-card-emulation) API emits raw NDEF over NFC without
+        any card network's permission — this is proven tech (Bolt
+        Card / LNURL-over-NFC), not research.
+  R2.2  The merchant's "terminal" is a phone with the app in
+        register mode, or a $10 NFC tag on the counter (static
+        BOLT12 offer — reusable, amount typed by the customer).
+        Acceptance costs a merchant NOTHING but the app.
+  R2.3  The balance is the bearer-ticket/LN wallet from BW §4 —
+        one balance earns (walks, custody) and spends (taps).
+        The mesh never holds fiat. There is no fiat.
+  R2.4  TWO-SIDED HONESTY: this rail only works where the MERCHANT
+        opted in. You cannot tap a legacy Visa terminal with it —
+        that is the price of zero chokepoints, stated plainly.
+        Users who want legacy-rail convenience can sweep sats to
+        any third-party card product THEY choose; that bridge lives
+        entirely outside the mesh and is never a dependency.
+  R2.5  LAW: no mesh data structure ever links spending identity to
+        node identity. Payments are LN/ecash-native; the merchant
+        learns an invoice was paid, nothing else.
 
 ------------------------------------------------------------------
-3. THE FX SPREAD (the engine)
+2b. DISTRIBUTION (upload from Tor, not from the stores)
 ------------------------------------------------------------------
-  F3.1  spread f is CONTINUOUS and public: f = f_base * v(t), where
-        v(t) adjusts smoothly with epoch pool health (pool fat =
-        spread compresses toward cost; pool thin = widens slightly).
-        No tiers, no hidden markup — f is printed on every receipt.
+The app never touches Google Play or the App Store. The stores are
+a kill switch and a surveillance tax; we decline both.
+
+  D2b.1 The APK is served from the mesh itself: an onion service
+        (atlas nodes can pin it per BW §3 — the app is just pinned
+        content), plus a clearnet git mirror for discoverability.
+  D2b.2 REPRODUCIBLE BUILDS: anyone can build the APK from source
+        and get the byte-identical artifact. The release hash is a
+        settlement leaf — every release is inscribed under the
+        anchor on Bitcoin. An APK whose hash isn't anchored is not
+        ours, full stop.
+  D2b.3 UPDATES OVER NOSTR: releases are announced as signed Nostr
+        events (kind TBD) carrying version, hash, and onion fetch
+        URLs. The app checks its own update feed over Tor. No
+        store, no CDN, no phone-home. The mesh distributes itself.
+  D2b.4 Android first-class (sideload is a checkbox; GrapheneOS/
+        CalyxOS users are the natural early adopters). iOS stated
+        honestly: Apple forbids NFC freedom + sideloading in most
+        jurisdictions — iPhone users get QR-only via web/PWA until
+        regulation or jailbreak-free paths open. We do not contort
+        the design to please Cupertino.
+
+------------------------------------------------------------------
+2c. THE MERCHANT SIDE (the cold-start engine — added v0.3)
+------------------------------------------------------------------
+Merchants aren't just acceptance points; they're the second revenue
+engine and the customer-acquisition loop, in the SAME app:
+
+  M2c.1 REGISTER MODE + DIRECTORY: any merchant flips the app into
+        register mode and gets a listing in the mesh-merchant
+        directory (gossiped like all content). Walkers see who
+        accepts nearby. Listing is free forever.
+  M2c.2 MERCHANTS BUY DRAW TICKETS: a merchant purchases tickets
+        from the epoch pool (sats in -> pool grows) and hands them
+        out at point of purchase or via geofenced drops. This is
+        their advertising budget — and every sat of it lands in
+        the pool that pays walkers. Ad spend IS pool revenue: the
+        network's second engine beside the fee (§3).
+  M2c.3 GEOFENCED DROPS, PRIVACY LAW: geofence evaluation happens
+        ON DEVICE. The customer's phone decides "am I inside the
+        drop zone"; the mesh never learns a location, the merchant
+        learns only aggregate redeemed-count. No location ever
+        appears in any mesh data structure.
+  M2c.4 DUAL LANE: default lane is NON-KYC pure sats — sovereign,
+        nothing to ask anyone. Merchants who need fiat on their
+        books can OPTIONALLY connect a third-party KYC'd sweep
+        partner (auto-convert sats->bank, their choice of vendor).
+        That bridge lives entirely outside the mesh (mirrors R2.4)
+        and is never a dependency. KYC never touches the mesh.
+  M2c.5 WHY GOOGLE CAN'T BLOCK THIS: HCE/NFC APIs are AOSP —
+        Android itself, not Play Services. Sideloaded apps get
+        full radio access, and we never enter the Play Store so
+        their policies never bind us. Worst case: a Play Protect
+        install warning (cosmetic; absent on Graphene/Calyx).
+        Apple CAN block native NFC (entitlement-gated outside
+        DMA regions) — hence D2b.4's iOS honesty clause stands.
+        Merchant terminals are Android phones or tags; no
+        merchant ever needs Cupertino's permission.
+
+------------------------------------------------------------------
+3. THE NETWORK FEE (the engine — was "FX spread", now simpler)
+------------------------------------------------------------------
+With no fiat conversion there is no FX. The pool feed becomes an
+honest, visible NETWORK FEE on spends:
+
+  F3.1  fee f is CONTINUOUS and public: f = f_base * v(t), v(t)
+        adjusting smoothly with epoch pool health (pool fat = fee
+        compresses toward zero; pool thin = widens slightly).
+        Target f_base ~0.5-1%. Printed on every payment preview —
+        the payer approves it with the payment, every time.
   F3.2  Split per spend, all as settlement leaves under the anchor:
-          - issuer/processing cost: whatever it actually costs
+          - LN routing cost: whatever it actually costs (usually
+            near zero)
           - epoch pool: the remainder (prizes, custody payouts,
             anchor fees — the same pool everything else feeds)
           - spend cashback: a sliver back to the spender in draw
             tickets (spending = participation; see A5.3 before
             you love this)
-  F3.3  Every epoch's total FX revenue is merkled and inscribed.
+  F3.3  Every epoch's total fee revenue is merkled and inscribed.
         Anyone can audit what the network skimmed and where it went.
 
 ------------------------------------------------------------------
 4. WHY ANYONE USES IT (the loop, stated plainly)
 ------------------------------------------------------------------
-  Walk the dream -> earn sats. Host content -> earn sats. Spend sats
-  at any card terminal on earth -> a ~1% whisper feeds the pool that
-  pays the next walker. Your coffee funds open research and the
-  infrastructure that hosts it, and you can VERIFY every hop of that
-  claim on Bitcoin. No ads, no token, no data sale — the network's
-  only revenue is service people chose to buy.
+  Walk the dream -> earn sats. Host content -> earn sats. Tap a
+  friend's phone, a market stall, a coffee counter that joined ->
+  a sub-1% whisper feeds the pool that pays the next walker. Your
+  coffee funds open research and the infrastructure that hosts it,
+  and you can VERIFY every hop of that claim on Bitcoin. No ads, no
+  token, no data sale, no bank in the loop — the network's only
+  revenue is service people chose to buy, on rails no one can
+  revoke. Merchants join because acceptance is FREE (an app or a
+  $10 tag), settlement is instant and final, and 0.5-1% beats the
+  2-3% the card networks take today.
 
 ------------------------------------------------------------------
 5. KNOWN OPEN ATTACKS (start here, demolishers)
 ------------------------------------------------------------------
-  A5.1  ISSUER CAPTURE: the replaceable-partner story (R2.3) is only
-        as good as the number of live integrations. One issuer = a
-        de facto admin key over spending. What's the minimum N, and
-        does the app need a Bolt-Card/LN-native fallback lane that
-        skips card rails entirely at LN-accepting merchants?
-  A5.2  FX SPREAD ARBITRAGE: v(t) is public and continuous — can a
+  A5.1  MERCHANT COLD-START: §2c is the designed answer (free
+        acceptance + directory + ticket-ads as acquisition). Attack
+        it: do ticket giveaways actually pull customers, or is it
+        two-sided-market wishful thinking? What density of merchants
+        per km² makes the directory worth opening? Is organic
+        LN-merchant overlap (BTCMap ~7k+ venues) a seed lane?
+  A5.1b GEOFENCE SPOOFING: M2c.3 evaluates drops on-device — a
+        rooted phone fakes GPS and farms every geofenced ticket
+        drop in the city from a couch. Rate-limits per pubkey,
+        PoW cost per claim, NFC-tap-to-claim (physical presence
+        proof beats GPS), or accept the leak as marketing cost?
+  A5.2  FEE TIMING ARBITRAGE: v(t) is public and continuous — can a
         spender time spends against pool health, and does that hurt
-        anything? (Maybe it's fine: gaming the spread = using the
+        anything? (Maybe it's fine: gaming the fee = using the
         network.)
   A5.3  CASHBACK WASH-SPENDING: draw tickets for spending invites
         buy-refund loops and self-merchant spins to farm tickets.
@@ -107,18 +196,51 @@ anyone who claims otherwise is selling something.
   A5.4  PHONE KEY CUSTODY: the pocket key signs walks AND spends.
         Phone theft = identity + balance. Secure-enclave sigs,
         spending sub-keys with limits, carrier-pair as recovery?
-  A5.5  KYC BLEED: R2.3 promises card identity never links to node
-        identity, but both live in one app on one device. Traffic
-        analysis, issuer subpoena, app-store telemetry — enumerate
-        the leak paths and state which are survivable.
-  A5.6  Every constant. f_base, splits, cashback sliver — guesses.
+  A5.5  IDENTITY BLEED: R2.5 promises spend identity never links to
+        node identity, but both live in one app on one device.
+        Traffic analysis on LN routes, NFC session correlation,
+        OS-level telemetry on stock Android — enumerate the leak
+        paths and state which are survivable (and which require
+        GrapheneOS to survive).
+  A5.6  MALICIOUS UPDATE FEED: D2b.3 makes Nostr events the update
+        channel. Compromise of the release signing key = malware on
+        every node. Does the update event need M-of-N release
+        signatures (treasury-style) + a mandatory anchor-inscription
+        check before install? (Probably yes — spec it.)
+  A5.7  TAG SWAPPING: a $10 static NFC tag on a counter can be
+        peeled and replaced by a thief's tag. Merchant app should
+        show expected-offer fingerprint; customers see merchant
+        name in the payment preview — is that enough, or do tags
+        need to die in favor of register-mode only?
+  A5.8  Every constant. f_base, splits, cashback sliver — guesses.
         Attack with mechanism, not taste.
 
 ------------------------------------------------------------------
 CHANGELOG
 ------------------------------------------------------------------
+v0.3 (2026-07-24, same day): MERCHANT SIDE (§2c). Merchants get
+register mode + free mesh directory listing; they BUY draw tickets
+from the pool as their ad budget (handed out at purchase or via
+geofenced drops evaluated on-device — mesh never learns locations),
+making ad spend the second pool engine beside the fee. Dual lane:
+non-KYC pure sats default; optional third-party KYC'd fiat sweep
+entirely outside the mesh. Documented why Google can't block a
+sideloaded HCE app (AOSP APIs, no Play policy reach) and why Apple
+still can (entitlement-gated NFC — iOS honesty clause stands).
+Added attack A5.1b geofence spoofing.
+
+v0.2 (2026-07-24, same day): SOVEREIGN RAIL REWRITE. Deleted Apple
+Pay / Google Pay and the whole issuer/KYC chokepoint (v0 §2). New:
+phone-to-phone / phone-to-tag Atlas Pay over NFC+LN (HCE, Bolt-Card-
+style — proven tech), merchant terminal = the same app or a $10 tag,
+distribution over Tor onion + reproducible builds + release hashes
+inscribed under the anchor + updates announced over Nostr (no app
+stores, ever). FX spread renamed NETWORK FEE (no fiat = no FX).
+Added attacks A5.1 cold-start, A5.6 malicious update feed, A5.7 tag
+swap. iOS honesty clause: QR/PWA only until Apple's walls crack.
+
 v0 (2026-07-24): first public draft. Member/carrier tiering (no
-uptime lies from phones), pluggable-issuer containment of the one
-regulated chokepoint, continuous public FX spread feeding the epoch
-pool, full-loop economy (earn thinking -> spend anywhere -> fund the
-next thinker). Awaiting demolition.
+uptime lies from phones), card-rail spend with pluggable issuers —
+SUPERSEDED by v0.2 same day: Q's law, "we go around Android and
+Apple Pay. Use the hardware, build our own software, upload from
+Tor." Awaiting demolition.
