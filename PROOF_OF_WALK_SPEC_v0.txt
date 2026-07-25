@@ -25,6 +25,29 @@ No new trust is introduced. Every claim below reduces to: a hash committed
 in a merkle root, inside an anchor event, inside a Bitcoin transaction.
 
 ------------------------------------------------------------------
+0b. WHAT IS AN ATLAS NODE (the thing you run)
+------------------------------------------------------------------
+One process, pure Rust, no accounts, no company. Running it makes you:
+
+  A NOSTR RELAY   : it speaks the open Nostr protocol — fragments,
+                    receipts, votes, and anchor events are just signed
+                    Nostr events anyone can read and verify.
+  A TOR ONION     : it publishes its own .onion address and gossips
+                    with peers arti-to-arti over Tor. No public IP, no
+                    port forwarding, no DNS, no permission. Your node
+                    is reachable from anywhere and owned by no one.
+  A LIGHTNING PEER: prize payouts arrive over LN — instant, near-zero
+                    fee, no exchange account needed.
+  A BITCOIN CITIZEN: node members co-own the M-of-N treasury on Bitcoin
+                    mainnet, and every settled epoch of mesh history is
+                    inscribed on the chain via OP_RETURN. Your node's
+                    work becomes part of a record nobody can rewrite.
+
+Nostr + Tor + Lightning + Bitcoin fused into one sovereign process:
+your keys, your history, your sats. That is the machine this spec
+pays you to run and walk with.
+
+------------------------------------------------------------------
 1. THE WALK HASH (already exists)
 ------------------------------------------------------------------
 Every submitted fragment already has a canonical identity:
