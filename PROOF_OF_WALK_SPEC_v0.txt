@@ -1,0 +1,173 @@
+PROOF OF WALK — SPEC v0 (DEMOLITION DRAFT)
+============================================
+Status: v0 — NOT BUILT. Published for demolition before deployment.
+Attack it: submit CRITIQUE/COUNTEREXAMPLE fragments titled "POW: <section> — <attack>"
+through the Dream Walk door (see RELAY.txt for the live relay URL).
+Accepted attacks are credited in the changelog inscribed alongside the anchors.
+Lineage: companion to ATLAS_CONSTITUTION_v0.txt (the rewards constitution).
+Nothing epistemic is for sale. The court is blind. Those laws are load-bearing.
+
+------------------------------------------------------------------
+0. WHAT THIS IS
+------------------------------------------------------------------
+A protocol that makes "the dream walked today" a Bitcoin-verifiable fact,
+and pays sats for it — more if your walk survived the blind court, most if
+you cracked an open problem. Three existing systems shake hands:
+
+  DREAM WALK guest house : fragments, quarantine, blind nightly court,
+                           verdicts (promote/keep/park), receipts.
+  ATLAS mesh             : sovereign Tor/Nostr nodes, gossip receipts,
+                           epoch settlement, kind-31340 anchor events.
+  ATLAS treasury         : M-of-N (2-of-3 at genesis) P2WSH on Bitcoin
+                           mainnet; anchors inscribed via OP_RETURN spends.
+
+No new trust is introduced. Every claim below reduces to: a hash committed
+in a merkle root, inside an anchor event, inside a Bitcoin transaction.
+
+------------------------------------------------------------------
+1. THE WALK HASH (already exists)
+------------------------------------------------------------------
+Every submitted fragment already has a canonical identity:
+
+  walk_hash = SHA256(title || content)
+
+This is the guest house dedupe hash. It is computed server-side at
+submission time and returned in the receipt. v0 adopts it unchanged.
+
+------------------------------------------------------------------
+2. BINDING A WALK TO A NODE (new, one optional field)
+------------------------------------------------------------------
+A walker who wants to qualify for rewards attaches to their submission:
+
+  pow_pubkey : their atlas node x-only pubkey (64 hex)
+  pow_sig    : BIP-340 schnorr signature over walk_hash by that key
+
+Rules:
+  R2.1  The signature proves key ownership. You cannot claim a fragment
+        you did not sign; you cannot claim someone else's fragment.
+  R2.2  Both fields are OPTIONAL. Walks without them are welcome and
+        judged identically — they simply earn no sats.
+  R2.3  THE COURT NEVER SEES pow_pubkey OR pow_sig. They are stripped
+        before court packets are built and live only in the rewards
+        layer. Verdict first, identity joined after. (Blind-court law.)
+  R2.4  One pubkey may sign many walks per day; tickets cap per §5.
+
+------------------------------------------------------------------
+3. QUALIFYING DAY ("have a node and walk that day")
+------------------------------------------------------------------
+A pubkey QUALIFIES for epoch E's draw iff BOTH:
+
+  Q3.1  NODE ALIVE: the pubkey has >=1 gossip receipt inside epoch E
+        (already tracked by atlas-rewards settlement).
+  Q3.2  DREAM WALKED: >=1 fragment with a valid pow_sig by that pubkey
+        was received by the guest house during epoch E's day AND
+        cleared the submission gate into quarantine (rate limits,
+        field caps, dedupe — spam that never reaches court never counts).
+
+------------------------------------------------------------------
+4. THE WALK MERKLE (new, ~50 lines)
+------------------------------------------------------------------
+Nightly, AFTER the court sits, the house builds:
+
+  leaf_i    = SHA256(walk_hash_i || verdict_i || pow_pubkey_i)
+  walk_root = merkle root over all leaves, sorted by walk_hash
+
+and commits walk_root into the epoch anchor (kind-31340) as a committed
+field. The anchor is inscribed on Bitcoin via the treasury OP_RETURN spend.
+
+What this buys, for strangers, forever:
+  P4.1  EXISTENCE : the walk happened by the anchor's block time.
+                    Nobody — including the house — can backdate a walk.
+  P4.2  VERDICT   : the court's judgment of it is tamper-evident.
+                    The house cannot quietly rewrite park -> promote.
+  P4.3  IDENTITY  : who walked is provable by whoever holds the key,
+                    and deniable by whoever doesn't publish the path.
+                    (Merkle paths are handed out, not broadcast.)
+
+------------------------------------------------------------------
+5. THE TICKET LADDER
+------------------------------------------------------------------
+Tickets in epoch E's draw, per pubkey:
+
+  WALKED    : fragment cleared into court ................ 1 ticket
+              (cap: 3 walk-tickets/day regardless of volume)
+  KEPT      : court verdict = keep ....................... 3 tickets
+              Clean NEGATIVE_RESULT kills count as KEPT —
+              publishing your dead is rewarded.
+  PROMOTED  : court verdict = promote ................... 10 tickets
+              + fixed direct bonus (see §6)
+  CRACKED   : bounty / open-garden problem solved,
+              law named after you ....................... jackpot tier
+              direct payout + alias inscribed in the
+              changelog on Bitcoin, per the constitution-
+              demolition precedent.
+  PARKED    : 0 tickets. Repeat-park pattern from one key applies a
+              decay weight (multiplier 0.5 after 5 consecutive parks,
+              recovers on first keep). The blind court is the sybil
+              filter: keys are free, surviving judges is not.
+
+Sizing note (v0 numbers, tune later): nightly draw 1000-2100 sats;
+PROMOTED bonus 2100 sats direct; CRACKED sized per bounty, announced in
+advance in BOUNTY.md. Treasury runway and all payouts are public on-chain.
+
+------------------------------------------------------------------
+6. THE DRAW (provably fair, nobody rolls the dice)
+------------------------------------------------------------------
+  D6.1  Let A = anchor_id of epoch E (committed, gossiped, inscribed).
+  D6.2  Let B = hash of the FIRST Bitcoin block mined at height strictly
+        greater than the block containing epoch E's anchor inscription.
+  D6.3  seed  = SHA256(A || B)
+  D6.4  Order qualifying pubkeys by pubkey hex asc; expand each to its
+        ticket count; winner = ticket[ seed mod total_tickets ].
+  D6.5  Anyone can recompute the winner from public data. The house
+        cannot influence B (Bitcoin miners produce it after A is fixed),
+        and cannot pick A to game B (A is fixed before B exists).
+
+------------------------------------------------------------------
+7. PAYOUT RAILS
+------------------------------------------------------------------
+  Y7.1  Nightly prizes over Lightning (fees ~0; winner presents an
+        invoice; payment preimage is published as the payout receipt).
+  Y7.2  Treasury settles on-chain MONTHLY in one M-of-N spend, which
+        doubles as that month's anchor inscription. One tx, two jobs.
+  Y7.3  Unclaimed prizes (no invoice within 7 days) roll into the next
+        jackpot. Nothing returns to the operators.
+
+------------------------------------------------------------------
+8. WHAT MONEY CAN NEVER TOUCH (restated, load-bearing)
+------------------------------------------------------------------
+  L8.1  Sats reward PARTICIPATION and SURVIVAL, never verdicts.
+        Judges never see identity, stake, or money. (Blind-court law.)
+  L8.2  Donations buy compute, never verdicts. Nothing epistemic for sale.
+  L8.3  Rewards code can refuse to pay; it can never force a verdict.
+  L8.4  If any clause here conflicts with the guest house design laws,
+        the design laws win and this spec is wrong.
+
+------------------------------------------------------------------
+9. KNOWN OPEN ATTACKS (start here, demolishers)
+------------------------------------------------------------------
+  A9.1  COURT-CAPACITY FLOOD: tickets require clearing INTO court, so a
+        flood of mediocre-but-valid fragments taxes judging. Mitigation
+        today: rate limits + 3-ticket/day cap + park-decay. Is it enough?
+  A9.2  JUDGE INFERENCE: with few walkers, a judge might GUESS whose
+        fragment it reads (style fingerprinting) even blind. Does money
+        make this worse, and can packet-shuffling/batching fix it?
+  A9.3  KEY REUSE: one human, many node keys, farming walk-tickets with
+        low-effort distinct fragments. Dedupe is exact-hash only. Does
+        the near-duplicate embedding check (nearest-kill infra) need to
+        gate tickets — and does that violate court sovereignty?
+  A9.4  LN RECEIPT PRIVACY: does publishing payment preimages leak
+        winner identity in a way that composes badly with P4.3?
+  A9.5  MINER GRIEFING: at jackpot sizes, could a miner-walker throw
+        away blocks to reroll D6.2? (At current sizes: absurd. State
+        the bound at which it stops being absurd.)
+  A9.6  Anything in §5's constants. All numbers are guesses. Attack
+        with mechanism, not taste.
+
+------------------------------------------------------------------
+CHANGELOG
+------------------------------------------------------------------
+v0 (2026-07-24): first public draft. Fused from: guest-house receipts/
+court (live), atlas anchor emission (live, treasury-attested), funded
+2-of-3 mainnet treasury (txid 83ddf1a7afc419beedb3b0e54a285dc059ee9635
+26e500cfd4ca132ce441546e). Awaiting demolition.
