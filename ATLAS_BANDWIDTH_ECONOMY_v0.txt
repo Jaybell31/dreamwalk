@@ -1,0 +1,134 @@
+ATLAS BANDWIDTH ECONOMY — SPEC v0 (DEMOLITION DRAFT)
+=====================================================
+Status: v0 — NOT BUILT. Published for demolition before deployment.
+Attack it: fragments titled "BW: <section> — <attack>" through the Dream
+Walk door (RELAY.txt has the live URL). Companion to ATLAS_CONSTITUTION_v0
+and PROOF_OF_WALK_SPEC_v0. Same laws: blind court, nothing epistemic for
+sale, every claim reduces to a hash in an anchor in a Bitcoin transaction.
+
+------------------------------------------------------------------
+0. THE PROBLEM
+------------------------------------------------------------------
+When people start HOSTING on the mesh — onion services, mirrors, graph
+windows, dreamscape maps — someone's disk, CPU, and uplink carries it.
+Volunteer bandwidth collapses exactly when growth arrives (every P2P
+network's graveyard). The mesh needs hosting to PAY THE NETWORK, without
+introducing accounts, admins, or surveillance.
+
+One honesty clause up front: atlas nodes gossip OVER Tor, and the public
+Tor relay network itself is unpaid by design — we can't pay Tor and don't
+pretend to. What we price is ATLAS-layer service: storage, replication,
+and serving done by atlas nodes for atlas users.
+
+------------------------------------------------------------------
+1. FIRST LAW: PRICE SERVICE, NEVER METER BANDWIDTH
+------------------------------------------------------------------
+Metered-bandwidth rewards die by self-dealing: a node inflates "bytes
+served" receipts by serving itself through proxies. Decades of P2P
+incentive papers, one graveyard.
+
+  L1.1  No sat is ever minted for CLAIMED traffic. Sats flow only where
+        a customer's payment already happened. A byte is worth exactly
+        what someone paid to move it; fake traffic is self-funded and
+        therefore harmless.
+  L1.2  Corollary: there is no "bandwidth subsidy pool" to farm. The
+        pool is revenue, and revenue requires a payer.
+
+------------------------------------------------------------------
+2. THE TWO SERVICES
+------------------------------------------------------------------
+  PINNING  : host pays for their content to EXIST on the mesh —
+             replicated, gossiped, alive while they sleep.
+  SERVING  : reader pays (usually nothing — see free tier) for bytes
+             delivered on request.
+
+------------------------------------------------------------------
+3. PINNING (rent, paid to the epoch pool)
+------------------------------------------------------------------
+  P3.1  A host announces a PIN CONTRACT: (content_hash, size_bytes,
+        replication_r, epochs_e) and pays rent to the treasury over LN.
+  P3.2  Rent is a CONTINUOUS function (no tiers, no buckets):
+
+          rent(size, r, e) = k * size * r * e * u(t)
+
+        where u(t) = exp(load/capacity of the mesh at time t), a
+        congestion multiplier recomputed each epoch from settled
+        pin totals vs advertised capacity. Idle mesh = cheap rent;
+        full mesh = rent rises smoothly until someone adds nodes.
+        (Adding capacity is how you short the rent curve — the
+        incentive to grow the mesh is IN the price.)
+  P3.3  Nodes that carry the pin earn the rent pro-rata per epoch,
+        SPLIT BY PROOF OF CUSTODY: each epoch the anchor_id seeds a
+        random challenge (byte-range hash of the pinned content ||
+        anchor_id); a carrying node answers in its settlement claim.
+        Can't answer = didn't store it = no share. The challenge is
+        deterministic from the anchor, so it's free to verify and
+        impossible to precompute before the epoch closes.
+  P3.4  Pin contracts, custody answers, and payouts are settlement
+        leaves — merkled into the kind-31340 anchor, inscribed on
+        Bitcoin. Rent history is as tamper-proof as walk history.
+
+------------------------------------------------------------------
+4. SERVING (prepaid bearer tickets, ecash-style)
+------------------------------------------------------------------
+  S4.1  Readers who want priority service buy BEARER TICKETS over LN:
+        blind-signed tokens (Cashu-style) denominated in sats, issued
+        against the treasury. Blind signing = the mesh cannot link a
+        ticket to the wallet that bought it. Reader privacy survives
+        payment. (Court-blindness ethos, applied to bandwidth.)
+  S4.2  A request arrives with a ticket attached; the serving node
+        redeems the ticket in its epoch settlement claim. Redemption
+        is the receipt — no traffic logs, no metering, nothing to
+        fake. L1.1 satisfied by construction.
+  S4.3  FREE TIER IS LAW: unpaid requests are still served best-effort
+        (rate-limited), tickets buy PRIORITY not ACCESS. The open door
+        (walks, graph reads, verdicts) is never paywalled. Knowledge
+        stays free; convenience pays the bills.
+
+------------------------------------------------------------------
+5. WHERE THE MONEY GOES
+------------------------------------------------------------------
+  M5.1  All rent + ticket revenue lands in the epoch pool alongside
+        (eventually replacing) the seeded prize funds. Split per
+        epoch, continuous weights, no buckets:
+          - carrying/serving nodes: pro-rata by custody proofs +
+            redeemed tickets
+          - proof-of-walk draw: fixed fraction (the door that brings
+            new minds stays funded)
+          - treasury retention: fixed fraction for the next epoch's
+            LN liquidity + on-chain anchor fees
+  M5.2  Every split is a settlement leaf under the anchor. Anyone can
+        audit an epoch's revenue and payouts against the chain.
+
+------------------------------------------------------------------
+6. KNOWN OPEN ATTACKS (start here, demolishers)
+------------------------------------------------------------------
+  A6.1  CUSTODY OUTSOURCING: N "carriers" back-end to one disk and
+        split the challenge answers. r-of-N replication becomes 1-of-1
+        with extra steps. Does the challenge need latency bounds or
+        per-node salts (encrypt each replica to the carrier's key)?
+  A6.2  TICKET MINT CUSTODY: blind-signing against the treasury makes
+        the 2-of-3 a MINT — ecash liabilities against a multisig.
+        What's the run-risk story? Cap outstanding float per epoch?
+  A6.3  FREE-TIER STARVATION: can paid traffic crowd out the open door
+        entirely on a congested mesh? Does S4.3 need a reserved-
+        capacity floor written into settlement rules?
+  A6.4  RENT GRIEFING: pin garbage at scale to inflate u(t) and price
+        rivals out. Self-funded per L1.1 — but is the congestion
+        multiplier manipulable more cheaply than the damage it does?
+  A6.5  EXIT-SCAM PINS: host prepays 100 epochs, mesh drops the content
+        at epoch 50. Slashing? Escrowed rent released per-epoch? (Rent
+        already streams per-epoch in P3.3 — is that enough?)
+  A6.6  LN LIQUIDITY: nightly micro-payouts need inbound liquidity at
+        every earning node. Who funds channels? Is ticket redemption
+        better settled in ecash (carry a balance) than raw LN?
+  A6.7  Every constant in §3-§5. All numbers are guesses. Attack with
+        mechanism, not taste.
+
+------------------------------------------------------------------
+CHANGELOG
+------------------------------------------------------------------
+v0 (2026-07-24): first public draft. Design laws: price-not-meter
+(L1.1), continuous congestion pricing (P3.2, no buckets), anchor-seeded
+custody proofs (P3.3), blind bearer tickets (S4.1), free-tier-is-law
+(S4.3). Awaiting demolition.
