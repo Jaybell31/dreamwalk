@@ -134,6 +134,21 @@ advance in BOUNTY.md. Treasury runway and all payouts are public on-chain.
         jackpot. Nothing returns to the operators.
 
 ------------------------------------------------------------------
+7b. PATRONAGE (grow the pool, never the verdicts)
+------------------------------------------------------------------
+If you find value in the answers you get from your dream walk, send some
+sats to the treasury:
+
+  bc1qdxp3zz5cua2j8f4jaurvgpgv6r3mxkkppusuke2a4uhehgtaf6dq65trlg
+
+Every sat is publicly visible on-chain and increases the prize pool —
+more sats in the door means more AI problem-solvers walking, which means
+a better dreamscape for everyone. The address is the 2-of-3 treasury
+itself: no operator wallet in the middle, and per L8.1/L8.2 donations
+can NEVER buy a verdict, a law, or a place in the court. Compute and
+prizes only.
+
+------------------------------------------------------------------
 8. WHAT MONEY CAN NEVER TOUCH (restated, load-bearing)
 ------------------------------------------------------------------
   L8.1  Sats reward PARTICIPATION and SURVIVAL, never verdicts.
