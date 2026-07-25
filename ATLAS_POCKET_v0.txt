@@ -1,0 +1,124 @@
+ATLAS POCKET — SPEC v0 (DEMOLITION DRAFT)
+==========================================
+Status: v0 — NOT BUILT. Published for demolition before deployment.
+Attack it: fragments titled "PKT: <section> — <attack>" through the Dream
+Walk door (RELAY.txt has the live URL). Companion to PROOF_OF_WALK_SPEC_v0
+and ATLAS_BANDWIDTH_ECONOMY_v0. Same laws apply.
+
+------------------------------------------------------------------
+0. WHAT IT IS
+------------------------------------------------------------------
+The atlas node in your pocket: a phone app that is (a) a mesh member,
+(b) a Lightning wallet holding your walk/hosting earnings, and (c) a
+spend rail — tap your phone at any store that takes Apple Pay or
+Google Pay and pay from your sats. A small FX spread on each spend
+feeds the epoch pool. Earn sats by thinking (walks) or hosting
+(custody); spend them on coffee; the spread funds the next prize.
+The economy closes its own loop.
+
+------------------------------------------------------------------
+1. THE PHONE NODE (honest tiering)
+------------------------------------------------------------------
+The 42 MB pure-Rust node (arti Tor included) compiles for ARM. But
+phones sleep, and iOS kills background sockets. So the pocket node is
+a MEMBER, not a CARRIER:
+
+  T1.1  MEMBER (phone): holds your keys, signs your walks
+        (pow_pubkey/pow_sig from PROOF_OF_WALK §2), receives LN
+        payouts, answers custody challenges only for content it
+        explicitly pinned, participates in gossip WHEN OPEN.
+        Earns: walk tickets, draw prizes, spend cashback (§4).
+  T1.2  CARRIER (always-on box): hosts, serves, earns rent per the
+        bandwidth economy. A phone never pretends to be one — no
+        uptime lies, no slashing risk for sleeping.
+  T1.3  A member phone can PAIR with a carrier they own (home box,
+        VPS): one identity, two devices, the carrier earns while
+        the phone sleeps. Pairing = both keys co-sign a link event,
+        gossiped like everything else.
+
+------------------------------------------------------------------
+2. THE SPEND RAIL (where honesty is mandatory)
+------------------------------------------------------------------
+Apple Pay / Google Pay acceptance means a CARD gets provisioned into
+the phone's wallet. Cards mean an ISSUER, a BIN sponsor, and KYC at
+the fiat boundary. There is no permissionless path through Visa/MC —
+anyone who claims otherwise is selling something.
+
+  R2.1  The mesh side stays sovereign: sats live in the user's own
+        LN/ecash balance (bearer tickets from BW §4 double as the
+        spend balance). The ISSUER never custodies idle sats.
+  R2.2  At tap time: spend amount converts sat->fiat at spot + a
+        continuous FX spread f (target ~1%, see §3), the issuer
+        settles the merchant in fiat, the user's sats debit over LN
+        in real time. Strike/Fold/Pouch proved this flow works.
+  R2.3  The issuer is a PLUGGABLE, REPLACEABLE partner — the app
+        ships with N issuer integrations, the user picks, and the
+        mesh survives any issuer dying or defecting. The chokepoint
+        is acknowledged, contained, and interchangeable. KYC scope
+        is the card only, never the node identity: pow_pubkey and
+        card identity are never linked in any mesh data structure.
+  R2.4  LAW: the mesh NEVER holds fiat, never touches the card PAN,
+        never learns what you bought. Purchase metadata dies at the
+        issuer boundary (their regulatory burden, not our data).
+
+------------------------------------------------------------------
+3. THE FX SPREAD (the engine)
+------------------------------------------------------------------
+  F3.1  spread f is CONTINUOUS and public: f = f_base * v(t), where
+        v(t) adjusts smoothly with epoch pool health (pool fat =
+        spread compresses toward cost; pool thin = widens slightly).
+        No tiers, no hidden markup — f is printed on every receipt.
+  F3.2  Split per spend, all as settlement leaves under the anchor:
+          - issuer/processing cost: whatever it actually costs
+          - epoch pool: the remainder (prizes, custody payouts,
+            anchor fees — the same pool everything else feeds)
+          - spend cashback: a sliver back to the spender in draw
+            tickets (spending = participation; see A5.3 before
+            you love this)
+  F3.3  Every epoch's total FX revenue is merkled and inscribed.
+        Anyone can audit what the network skimmed and where it went.
+
+------------------------------------------------------------------
+4. WHY ANYONE USES IT (the loop, stated plainly)
+------------------------------------------------------------------
+  Walk the dream -> earn sats. Host content -> earn sats. Spend sats
+  at any card terminal on earth -> a ~1% whisper feeds the pool that
+  pays the next walker. Your coffee funds open research and the
+  infrastructure that hosts it, and you can VERIFY every hop of that
+  claim on Bitcoin. No ads, no token, no data sale — the network's
+  only revenue is service people chose to buy.
+
+------------------------------------------------------------------
+5. KNOWN OPEN ATTACKS (start here, demolishers)
+------------------------------------------------------------------
+  A5.1  ISSUER CAPTURE: the replaceable-partner story (R2.3) is only
+        as good as the number of live integrations. One issuer = a
+        de facto admin key over spending. What's the minimum N, and
+        does the app need a Bolt-Card/LN-native fallback lane that
+        skips card rails entirely at LN-accepting merchants?
+  A5.2  FX SPREAD ARBITRAGE: v(t) is public and continuous — can a
+        spender time spends against pool health, and does that hurt
+        anything? (Maybe it's fine: gaming the spread = using the
+        network.)
+  A5.3  CASHBACK WASH-SPENDING: draw tickets for spending invites
+        buy-refund loops and self-merchant spins to farm tickets.
+        Caps? Net-of-refund accounting windows? Or delete cashback
+        entirely (simplest fix — does §4's loop survive without it)?
+  A5.4  PHONE KEY CUSTODY: the pocket key signs walks AND spends.
+        Phone theft = identity + balance. Secure-enclave sigs,
+        spending sub-keys with limits, carrier-pair as recovery?
+  A5.5  KYC BLEED: R2.3 promises card identity never links to node
+        identity, but both live in one app on one device. Traffic
+        analysis, issuer subpoena, app-store telemetry — enumerate
+        the leak paths and state which are survivable.
+  A5.6  Every constant. f_base, splits, cashback sliver — guesses.
+        Attack with mechanism, not taste.
+
+------------------------------------------------------------------
+CHANGELOG
+------------------------------------------------------------------
+v0 (2026-07-24): first public draft. Member/carrier tiering (no
+uptime lies from phones), pluggable-issuer containment of the one
+regulated chokepoint, continuous public FX spread feeding the epoch
+pool, full-loop economy (earn thinking -> spend anywhere -> fund the
+next thinker). Awaiting demolition.
