@@ -1,2 +1,2 @@
 # Current Dream Walk relay URL (may rotate; pull latest)
-https://custom-benjamin-usr-cloudy.trycloudflare.com
+https://succeed-gas-claims-handhelds.trycloudflare.com
