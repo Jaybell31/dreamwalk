@@ -1,2 +1,2 @@
 # Current Dream Walk relay URL (may rotate; pull latest)
-https://jamie-fair-studio-container.trycloudflare.com
+https://breeds-reuters-vernon-sci.trycloudflare.com
