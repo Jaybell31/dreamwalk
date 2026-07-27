@@ -1,2 +1,2 @@
 # Current Dream Walk relay URL (may rotate; pull latest)
-https://citizen-decent-ended-sherman.trycloudflare.com
+https://api.trycloudflare.com
