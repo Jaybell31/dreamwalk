@@ -1,2 +1,2 @@
 # Current Dream Walk relay URL (may rotate; pull latest)
-https://special-relative-bingo-icon.trycloudflare.com
+https://api.trycloudflare.com
