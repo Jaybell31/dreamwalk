@@ -1,0 +1,17 @@
+{"label":"minimality_k64","k":64,"limit":2600001558,"candidates_tested":81250006,"wheel_survivors":8768,"hit":0,"hit_r":-1,"secs":0.6,"verdict":"NO_SOLUTION_BELOW_LIMIT"}
+{"label":"minimality_k67","k":67,"limit":1178168706,"candidates_tested":1178168572,"wheel_survivors":692835,"hit":0,"hit_r":-1,"secs":9.9,"verdict":"NO_SOLUTION_BELOW_LIMIT"}
+{"label":"minimality_k61","k":61,"limit":569181900,"candidates_tested":569181778,"wheel_survivors":196069,"hit":0,"hit_r":-1,"secs":4.0,"verdict":"NO_SOLUTION_BELOW_LIMIT"}
+{"label":"minimality_k62","k":62,"limit":155275274056,"candidates_tested":107928190,"wheel_survivors":2178,"hit":0,"hit_r":-1,"secs":0.8,"verdict":"NO_SOLUTION_BELOW_LIMIT"}
+{"label":"minimality_k63","k":63,"limit":216949362182,"candidates_tested":101513195,"wheel_survivors":5029,"hit":0,"hit_r":-1,"secs":0.8,"verdict":"NO_SOLUTION_BELOW_LIMIT"}
+{"label":"minimality_k68","k":68,"limit":260686545186,"candidates_tested":84565254,"wheel_survivors":2267,"hit":0,"hit_r":-1,"secs":0.6,"verdict":"NO_SOLUTION_BELOW_LIMIT"}
+{"label":"minimality_k74","k":74,"limit":3146202243081,"candidates_tested":466816831,"wheel_survivors":614,"hit":0,"hit_r":-1,"secs":3.1,"verdict":"NO_SOLUTION_BELOW_LIMIT"}
+{"label":"minimality_k60","k":60,"limit":2117441088029,"candidates_tested":25487682,"wheel_survivors":3484,"hit":0,"hit_r":-1,"secs":0.2,"verdict":"NO_SOLUTION_BELOW_LIMIT"}
+{"label":"minimality_k72","k":72,"limit":890473430071,"candidates_tested":250502885,"wheel_survivors":2511,"hit":0,"hit_r":-1,"secs":2.1,"verdict":"NO_SOLUTION_BELOW_LIMIT"}
+{"label":"minimality_k69","k":69,"limit":709479687556,"candidates_tested":734056753,"wheel_survivors":44435,"hit":0,"hit_r":-1,"secs":5.4,"verdict":"NO_SOLUTION_BELOW_LIMIT"}
+{"label":"minimality_k66","k":66,"limit":1618958347825,"candidates_tested":9499425,"wheel_survivors":2874,"hit":0,"hit_r":-1,"secs":0.1,"verdict":"NO_SOLUTION_BELOW_LIMIT"}
+{"label":"minimality_k65","k":65,"limit":1936512990784,"candidates_tested":4491793409,"wheel_survivors":894901,"hit":0,"hit_r":-1,"secs":38.7,"verdict":"NO_SOLUTION_BELOW_LIMIT"}
+{"label":"minimality_k71","k":71,"limit":13760436550,"candidates_tested":13760436408,"wheel_survivors":3063012,"hit":0,"hit_r":-1,"secs":108.8,"verdict":"NO_SOLUTION_BELOW_LIMIT"}
+{"label":"minimality_k70","k":70,"limit":66383308992066,"candidates_tested":287886786,"wheel_survivors":33768,"hit":0,"hit_r":-1,"secs":2.4,"verdict":"NO_SOLUTION_BELOW_LIMIT"}
+{"label":"minimality_k75","k":75,"limit":32639932074432,"candidates_tested":26004489075,"wheel_survivors":99950,"hit":0,"hit_r":-1,"secs":183.3,"verdict":"NO_SOLUTION_BELOW_LIMIT"}
+{"label":"minimality_k73","k":73,"limit":40861892736,"candidates_tested":40861892590,"wheel_survivors":1040444,"hit":0,"hit_r":-1,"secs":321.7,"verdict":"NO_SOLUTION_BELOW_LIMIT"}
+SWEEP_COMPLETE 2026-07-27T11:57:48-04:00

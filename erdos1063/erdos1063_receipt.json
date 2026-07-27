@@ -1,0 +1,269 @@
+{
+ "control": {
+  "2": "OK",
+  "3": "OK",
+  "4": "OK",
+  "5": "OK",
+  "6": "OK",
+  "7": "OK",
+  "8": "OK",
+  "9": "OK",
+  "10": "OK",
+  "11": "OK",
+  "12": "OK",
+  "13": "OK",
+  "14": "OK",
+  "15": "OK",
+  "16": "OK",
+  "17": "OK",
+  "18": "OK",
+  "19": "OK",
+  "20": "OK",
+  "21": "OK",
+  "22": "OK",
+  "23": "OK",
+  "24": "OK"
+ },
+ "validity": [
+  {
+   "k": 60,
+   "n": 2117441088029,
+   "digits_of_C": 658,
+   "n_bad": 1,
+   "bad": [
+    29
+   ],
+   "forced_index_ok": true,
+   "r_expected": 29,
+   "lower_bound": 1296000,
+   "lb_ok": true,
+   "D_divides": true,
+   "secs": 0.0
+  },
+  {
+   "k": 61,
+   "n": 569181900,
+   "digits_of_C": 451,
+   "n_bad": 1,
+   "bad": [
+    50
+   ],
+   "forced_index_ok": true,
+   "r_expected": 50,
+   "lower_bound": 122,
+   "lb_ok": true,
+   "D_divides": true,
+   "secs": 0.0
+  },
+  {
+   "k": 62,
+   "n": 155275274056,
+   "digits_of_C": 609,
+   "n_bad": 1,
+   "bad": [
+    8
+   ],
+   "forced_index_ok": true,
+   "r_expected": 8,
+   "lower_bound": 61504,
+   "lb_ok": true,
+   "D_divides": true,
+   "secs": 0.0
+  },
+  {
+   "k": 63,
+   "n": 216949362182,
+   "digits_of_C": 627,
+   "n_bad": 1,
+   "bad": [
+    35
+   ],
+   "forced_index_ok": true,
+   "r_expected": 35,
+   "lower_bound": 83349,
+   "lb_ok": true,
+   "D_divides": true,
+   "secs": 0.0
+  },
+  {
+   "k": 64,
+   "n": 2600001558,
+   "digits_of_C": 514,
+   "n_bad": 1,
+   "bad": [
+    22
+   ],
+   "forced_index_ok": true,
+   "r_expected": 22,
+   "lower_bound": 2048,
+   "lb_ok": true,
+   "D_divides": true,
+   "secs": 0.0
+  },
+  {
+   "k": 65,
+   "n": 1936512990784,
+   "digits_of_C": 708,
+   "n_bad": 1,
+   "bad": [
+    34
+   ],
+   "forced_index_ok": true,
+   "r_expected": 34,
+   "lower_bound": 21125,
+   "lb_ok": true,
+   "D_divides": true,
+   "secs": 0.0
+  },
+  {
+   "k": 66,
+   "n": 1618958347825,
+   "digits_of_C": 714,
+   "n_bad": 1,
+   "bad": [
+    49
+   ],
+   "forced_index_ok": true,
+   "r_expected": 49,
+   "lower_bound": 1254528,
+   "lb_ok": true,
+   "D_divides": true,
+   "secs": 0.0
+  },
+  {
+   "k": 67,
+   "n": 1178168706,
+   "digits_of_C": 514,
+   "n_bad": 1,
+   "bad": [
+    37
+   ],
+   "forced_index_ok": true,
+   "r_expected": 37,
+   "lower_bound": 134,
+   "lb_ok": true,
+   "D_divides": true,
+   "secs": 0.0
+  },
+  {
+   "k": 68,
+   "n": 260686545186,
+   "digits_of_C": 680,
+   "n_bad": 1,
+   "bad": [
+    34
+   ],
+   "forced_index_ok": true,
+   "r_expected": 34,
+   "lower_bound": 73984,
+   "lb_ok": true,
+   "D_divides": true,
+   "secs": 0.0
+  },
+  {
+   "k": 69,
+   "n": 709479687556,
+   "digits_of_C": 720,
+   "n_bad": 1,
+   "bad": [
+    28
+   ],
+   "forced_index_ok": true,
+   "r_expected": 28,
+   "lower_bound": 42849,
+   "lb_ok": true,
+   "D_divides": true,
+   "secs": 0.0
+  },
+  {
+   "k": 70,
+   "n": 66383308992066,
+   "digits_of_C": 868,
+   "n_bad": 1,
+   "bad": [
+    66
+   ],
+   "forced_index_ok": true,
+   "r_expected": 66,
+   "lower_bound": 5488000,
+   "lb_ok": true,
+   "D_divides": true,
+   "secs": 0.0
+  },
+  {
+   "k": 71,
+   "n": 13760436550,
+   "digits_of_C": 618,
+   "n_bad": 1,
+   "bad": [
+    35
+   ],
+   "forced_index_ok": true,
+   "r_expected": 35,
+   "lower_bound": 142,
+   "lb_ok": true,
+   "D_divides": true,
+   "secs": 0.0
+  },
+  {
+   "k": 72,
+   "n": 890473430071,
+   "digits_of_C": 757,
+   "n_bad": 1,
+   "bad": [
+    55
+   ],
+   "forced_index_ok": true,
+   "r_expected": 55,
+   "lower_bound": 124416,
+   "lb_ok": true,
+   "D_divides": true,
+   "secs": 0.0
+  },
+  {
+   "k": 73,
+   "n": 40861892736,
+   "digits_of_C": 669,
+   "n_bad": 1,
+   "bad": [
+    21
+   ],
+   "forced_index_ok": true,
+   "r_expected": 21,
+   "lower_bound": 146,
+   "lb_ok": true,
+   "D_divides": true,
+   "secs": 0.0
+  },
+  {
+   "k": 74,
+   "n": 3146202243081,
+   "digits_of_C": 818,
+   "n_bad": 1,
+   "bad": [
+    9
+   ],
+   "forced_index_ok": true,
+   "r_expected": 9,
+   "lower_bound": 175232,
+   "lb_ok": true,
+   "D_divides": true,
+   "secs": 0.0
+  },
+  {
+   "k": 75,
+   "n": 32639932074432,
+   "digits_of_C": 905,
+   "n_bad": 1,
+   "bad": [
+    57
+   ],
+   "forced_index_ok": true,
+   "r_expected": 57,
+   "lower_bound": 50625,
+   "lb_ok": true,
+   "D_divides": true,
+   "secs": 0.0
+  }
+ ]
+}
