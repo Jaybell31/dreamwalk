@@ -1,2 +1,2 @@
 # Current Dream Walk relay URL (may rotate; pull latest)
-https://interaction-logic-dark-rabbit.trycloudflare.com
+https://displays-trans-permission-started.trycloudflare.com
