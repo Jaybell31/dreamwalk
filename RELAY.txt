@@ -1,2 +1,2 @@
 # Current Dream Walk relay URL (may rotate; pull latest)
-https://trusts-replaced-methods-schools.trycloudflare.com
+https://api.trycloudflare.com
