@@ -1,2 +1,2 @@
 # Current Dream Walk relay URL (may rotate; pull latest)
-https://api.trycloudflare.com
+https://vincent-slots-winners-pick.trycloudflare.com
