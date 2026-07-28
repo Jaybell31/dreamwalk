@@ -1,0 +1,92 @@
+VENUE: https://www.erdosproblems.com/forum/thread/1063   (COMMENT on the problem
+thread — NOT a proof claim, NOT a blog post, NOT a new thread)
+ACCOUNT: jbell31
+STATUS: drafted 2026-07-28, all 16 terms re-verified from scratch immediately
+        before drafting (exact big-int C(n,k), 451-905 digits, 16/16 OK)
+
+--------------------------- PASTE EVERYTHING BELOW ---------------------------
+
+Extending the computation to k = 75: 16 new terms, each verified minimal.
+
+Taking rickyc's two results above as a *search accelerator* (the unique failing
+index satisfies e = n mod k, and for each p^a || k,
+p^(a + v_p(C(k-1,e)) + floor(log_p max(e, k-1-e))) divides n - e), every solution
+with failing index r lies on the single progression n = r mod D(k,r), where D(k,r)
+is the product of those prime powers. Sweeping all k such progressions below a
+candidate is therefore exhaustive rather than heuristic. That extends OEIS
+A389360, whose b-file ends at k = 59, by 16 terms:
+
+   k          n_k                 k          n_k
+  60   2117441088029             68     260686545186
+  61        569181900            69     709479687556
+  62     155275274056            70   66383308992066
+  63     216949362182            71      13760436550
+  64       2600001558            72     890473430071
+  65   1936512990784             73      40861892736
+  66   1618958347825             74    3146202243081
+  67       1178168706            75   32639932074432
+
+Each is minimal, not merely a solution: the sweeps below them tested
+89,015,468,839 candidates in total with zero hits. As an arithmetic check on
+coverage, the candidate count predicted independently from sum_r floor(n_k/D(k,r))
+is 89,015,469,493, agreeing with the number actually enumerated to 7 parts in 10^9
+(the difference is the n >= 2k floor). Positive control: the identical code path
+re-derives all 58 published terms k = 2..59 with zero mismatches — it found two
+real bugs in the process (taking the first hit in r-order rather than the minimum
+over r, and omitting the n >= 2k floor). Separately, a verifier sharing no code
+with the searcher builds C(n,k) as an exact integer (451 to 905 decimal digits)
+and tests divisibility straight from the definition: for all 16 terms there is
+exactly one failing divisor, always at index n mod k.
+
+Code, receipts and reproduction instructions:
+https://github.com/Jaybell31/dreamwalk/tree/master/erdos1063
+
+On StijnC's question of what estimate one should expect here, the extra terms say
+the following.
+
+(1) No new extreme in 38 further terms. n_k^(1/k) stays inside the band observed
+for k <= 37: over 2 <= k <= 75 the maximum is still k = 10 (2.1781) and the
+minimum still k = 31 (1.3368). The new terms only span 1.3658 (k = 67) to 1.6048
+(k = 60).
+
+(2) The prime/composite separation sharpens rather than washing out. Mean of
+log(n_k)/k:
+
+     k range    primes   composites
+      2-19      0.4954     0.5825
+     20-39      0.3390     0.5122
+     40-59      0.3521     0.4502
+     60-75      0.3264     0.4105
+
+Regressing log(n_k)/k on k over k >= 20 gives slope -0.0026 for composite k but
+-0.0002 for prime k. The apparent decay lives almost entirely on the composite
+branch; the prime branch is close to flat near 0.33 across 55 terms. If the truth
+is c^((1+o(1))k), these data are consistent with two different constants for the
+two branches rather than one.
+
+(3) The lower bound is still very far from the truth in this range:
+n_k / LB(k) runs from 1.3e6 (k = 64) to 6.4e8 (k = 75), i.e. log(LB(k))/k is
+roughly 0.07 to 0.23 against log(n_k)/k of roughly 0.31 to 0.47.
+
+This does not resolve #1063 and claims no new theorem. The structural results are
+rickyc's; they are used here but not re-proved formally, so minimality is
+conditional on them (it is verified empirically on all 58 published terms as well
+as the 16 new ones — a Lean formalisation of the divisibility result would close
+that gap). Machine arithmetic is u64; all values are below 2^63 and D(k,r)
+overflow is detected rather than silently wrapped.
+
+AI disclosure: the searcher, the independent verifier and the text of this comment
+were produced with AI assistance (Claude, running in an agent harness). The claims
+are computational and machine-checkable — both implementations and the positive
+control are in the linked repository and can be re-run in a few minutes.
+
+--------------------------- PASTE EVERYTHING ABOVE ---------------------------
+
+NOTES / house discipline
+- Prior art WAS checked: rickyc 26 Jun 2026 (k/2 bound) and 10 Jul 2026 (k-1
+  bound, GPT-5.6-Sol) are credited explicitly. Do not restate them as ours.
+- Bloom's advice page says do not rush to announce. NO promo blitz until the
+  thread has had a couple of days.
+- Credit-bearing home for the sequence extension itself is OEIS A389360
+  (authors: Stijn Cambie, Chai Wah Wu, Michel Marcus). Submit the b-file
+  extension there in parallel, referencing this comment.

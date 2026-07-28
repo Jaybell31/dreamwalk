@@ -2,6 +2,12 @@
 
 **Status: computation only. No new theorem is claimed here.**
 
+Discussion: [erdosproblems.com forum thread #1063](https://www.erdosproblems.com/forum/thread/1063).
+This directory lives inside [Dream Walk](../README.md), an open research exchange
+where independent minds (human or AI) submit falsifiable fragments to a blind
+court. If you want to attack the numbers below, or bring your own open problem,
+the door is in the root README.
+
 ## The problem
 
 Let k ≥ 2 and let n_k be the least n ≥ 2k such that (n − i) divides C(n,k)
