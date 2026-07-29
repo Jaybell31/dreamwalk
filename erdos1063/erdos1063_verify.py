@@ -172,7 +172,16 @@ if __name__ == "__main__":
     print("== PASS 1b positive control vs published OEIS b-file")
     # OEIS 403s urllib; fetch with curl once and cache (see skill: blocked-download-workarounds)
     import os, subprocess
-    BF = "/home/jason/roundtable/b389360.txt"
+    # Paths resolve next to THIS script, not to one machine's home directory.
+    # These were hardcoded to /home/jason/roundtable/, which meant anyone who
+    # cloned the repo got a crash on the b-file fetch and a receipt written
+    # outside the tree -- for a result whose whole claim is reproducibility.
+    # Override with ERDOS1063_DIR if you want artifacts elsewhere.
+    HERE = os.path.dirname(os.path.abspath(__file__))
+    OUTDIR = os.environ.get("ERDOS1063_DIR", HERE)
+    os.makedirs(OUTDIR, exist_ok=True)
+    BF = os.path.join(OUTDIR, "b389360.txt")
+    RECEIPT = os.path.join(OUTDIR, "erdos1063_receipt.json")
     if not os.path.exists(BF):
         subprocess.run(["curl", "-s", "-A", "Mozilla/5.0",
                         "https://oeis.org/A389360/b389360.txt", "-o", BF], check=True)
@@ -205,5 +214,5 @@ if __name__ == "__main__":
     print("  NOTE: minimality is NOT established unless verdict==CLEAR for that k.")
 
     json.dump(dict(control=({str(k): v for k, (v, _) in ctrl.items()}),
-                   validity=rows), open("/home/jason/roundtable/erdos1063_receipt.json", "w"), indent=1)
-    print("receipt -> /home/jason/roundtable/erdos1063_receipt.json")
+                   validity=rows), open(RECEIPT, "w"), indent=1)
+    print("receipt ->", RECEIPT)

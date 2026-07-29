@@ -6,8 +6,21 @@
 #
 # Runs niced at low parallelism: the arena (night_shift_v3.sh) is PRIMARY on this box.
 set -u
-cd /home/jason/roundtable
+# Resolve to THIS script's directory so a fresh clone reproduces the sweep.
+# Was `cd /home/jason/roundtable`, which silently sweeps the wrong tree (or
+# fails) on any other machine -- unacceptable for the file that IS the
+# minimality evidence.
+cd "$(dirname "$(readlink -f "$0")")" || exit 1
 OUT=erdos1063_minimality.jsonl
+
+# The sweeper is C and is NOT committed as a binary. Build it if missing;
+# otherwise the loop below runs `./erdos1063_sweep` 16 times, fails silently
+# into an empty JSONL, and the sweep "completes" having tested nothing.
+if [ ! -x ./erdos1063_sweep ]; then
+  echo "building erdos1063_sweep from source"
+  gcc -O2 -o erdos1063_sweep erdos1063_sweep.c || {
+    echo "FATAL: build failed"; exit 1; }
+fi
 : > "$OUT"
 
 declare -A N=(
@@ -26,4 +39,17 @@ for k in $ORDER; do
   ( nice -n 19 ./erdos1063_sweep "$k" "${N[$k]}" "minimality_k$k" >> "$OUT" ) &
 done
 wait
+
+# Refuse to stamp SWEEP_COMPLETE unless all 16 verdicts are present and every
+# one is NO_SOLUTION_BELOW_LIMIT. A trailing completion marker on a short or
+# hit-bearing run is exactly the artifact that makes an unproven claim look
+# audited.
+got=$(grep -c NO_SOLUTION_BELOW_LIMIT "$OUT" || true)
+hits=$(grep -c '"hit":[^0]' "$OUT" || true)
+if [ "$got" -ne 16 ] || [ "$hits" -ne 0 ]; then
+  echo "SWEEP_INCOMPLETE got=$got/16 hits=$hits -- MINIMALITY NOT ESTABLISHED" >> "$OUT"
+  echo "FAILED: got=$got/16 clear verdicts, $hits hits"
+  exit 1
+fi
 echo "SWEEP_COMPLETE $(date -Is)" >> "$OUT"
+echo "OK: 16/16 NO_SOLUTION_BELOW_LIMIT, 0 hits"
