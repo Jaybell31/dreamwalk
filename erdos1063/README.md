@@ -16,7 +16,9 @@ of n_k ([ErSe83]; Guy B31). The sequence is OEIS
 [A389360](https://oeis.org/A389360), whose published b-file ends at k = 59.
 
 This repository contains an independent verifier and an exhaustive sparse
-searcher, and reports 16 further terms, k = 60 … 75, each **proven minimal**.
+searcher, and reports 16 further terms, k = 60 … 75. Each is **verified valid by
+two independent implementations**, and **minimal according to a single
+implementation** (the sparse sweep) — see Declared gaps.
 
 ## What is ours, and what is not
 
@@ -34,7 +36,7 @@ that as a **search accelerator**, and we credit it; we did not discover it.
 
 **Ours.** The computation, the two independent implementations, and the audit.
 
-## Results — 16 new terms, all minimal
+## Results — 16 new terms (validity double-checked, minimality single-source)
 
 | k | n_k | k | n_k |
 |---|---|---|---|
@@ -142,6 +144,15 @@ Receipts are written as JSON/JSONL next to the scripts
 * Minimality is **conditional on** rickyc's divisibility result, which we use
   but did not re-prove formally. It is verified empirically on all 58 published
   terms plus all 16 new ones. A Lean formalisation would close this.
+* **Minimality rests on a SINGLE implementation.** The "two independent
+  implementations" above cover the *validity* of each n_k, not its minimality.
+  Only `erdos1063_sweep.c` witnesses minimality for k = 60 … 75; the Python
+  verifier's own brute-force minimality pass reports `BUDGET_EXHAUSTED`, having
+  covered under 0.01% of each interval (for most k, under 0.00001%), so it can
+  neither confirm nor refute minimality at these sizes. Re-running the C sweep
+  tests reproducibility of that one implementation, not independence from it.
+  A second, independently written sparse searcher would close this; until then a
+  systematic error in the D(k,r) accelerator would be invisible to our audit.
 * Machine arithmetic is u64; all values here are < 2^63, and D(k,r) overflow is
   detected and reported rather than silently wrapped.
 * The sweep assumes the failing index r is in range 0 ≤ r < k as stated; it does
