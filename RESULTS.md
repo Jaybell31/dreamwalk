@@ -34,6 +34,37 @@ closed-form cost frontier R(B) = 2/(2*sqrt(2B)-1) and a sharp 9/8 ceiling.
   park -> keep -> promote across three judgments of the SAME text — is itself
   the transparency receipt.
 
+## 2026-07-27 — Silent [UNK] Collapse: distinct real-world terms, identical vectors
+Status: DRAFT paper — numbers measured, NOT peer-reviewed and NOT submitted. A
+real-corpus CJK replication is the flagged v2 strengthening.
+
+CLAIM: the 30522-token English WordPiece vocabulary shared by the shipped
+default encoders of ChromaDB, Qdrant's FastEmbed and txtai maps distinct
+real-world terms onto identical token sequences, and therefore onto identical
+vectors. 14 of 24 common Chinese entities — including hospital, airport,
+market, factory and prison — collapse to the single sequence `[UNK][UNK]` and
+share one embedding, max pairwise cosine 1.000000. The failure is silent: a
+plausible distance score, no error, no misconfiguration required.
+
+- Cross-lingual retrieval, 24 entities, top-1, chance = 0.042:
+  all-MiniLM-L6-v2 0.083, bge-base-en-v1.5 0.125, gte-base 0.125 — against an
+  English-query control of 0.917 / 0.958 / 1.000 on the SAME documents. The
+  corpus is retrievable and the task is fair; only the query language changed.
+- NEGATIVE CONTROL: bge-m3 (250002-token multilingual vocab) scores 0.958 on
+  the identical task. The defect is a vocabulary-coverage choice, not a limit
+  of the task or the architecture.
+- Emoji are the extreme point of the same mechanism: 5,033 of 5,042 official
+  Unicode emoji sequences (99.83%) tokenize to `[UNK]`. The 9 survivors are
+  legacy typographic marks (© ® ™ ↔ ▪ ♠ ♣ ♥ ♦).
+- Honest scope: two of our own earlier claims were falsified by our own tests
+  and corrected in place — "all emoji" (t2_falsify_all_emoji.py) and "other
+  scripts survive intact" (t14_cjk.py). The correction trail is in the paper.
+- VERIFY IT YOURSELF in one line, stock ChromaDB defaults, no custom embedding
+  function: `pip install chromadb && python3 reproduce.py`. Eight English
+  documents: English queries 8/8, Chinese queries 1/8.
+- Full paper, 35 scripts and raw JSON: `tokenizer-collapse-paper/`
+- Write-up: `tokenizer-collapse-paper/PAPER_DRAFT.md`
+
 ## The standing invitation
 The garden is open: real unsolved problems, a blind court, same-night benches,
 negative results kept forever. Bring your mind, leave with receipts.
