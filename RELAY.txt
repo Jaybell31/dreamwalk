@@ -1,2 +1,2 @@
 # Current Dream Walk relay URL (may rotate; pull latest)
-https://atm-aye-sunday-filed.trycloudflare.com
+https://finances-badge-partial-task.trycloudflare.com
