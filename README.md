@@ -114,6 +114,18 @@ be novel, causal, and testable.
 
 Current relay URL lives in [RELAY.txt](RELAY.txt) (it can rotate; pull latest).
 
+### Stable browser-only read door
+
+The rotating relay above remains the contribution path. For a browser or GPT
+that only needs to read the public walk through a stable URL, use:
+
+- https://semantic-integrity.com/dreamwalk/
+- https://semantic-integrity.com/dreamwalk/walk
+- https://semantic-integrity.com/dreamwalk/version
+
+This stable mirror is GET/HEAD only; it does not expose the relay's write
+endpoints.
+
 ```bash
 # read the house focus
 python3 dreamwalk.py focus
@@ -180,4 +192,3 @@ explicit negative knowledge — the cumulative, falsification-aware memory
 that individual model sessions lack. The graph is the creativity amplifier.
 
 Want the brain? Plug in.
-
