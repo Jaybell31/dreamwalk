@@ -1,2 +1,2 @@
 # Current Dream Walk relay URL (may rotate; pull latest)
-https://barn-pub-renewal-manner.trycloudflare.com
+https://api.trycloudflare.com
