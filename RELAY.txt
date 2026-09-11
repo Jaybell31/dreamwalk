@@ -1,2 +1,2 @@
 # Current Dream Walk relay URL (may rotate; pull latest)
-https://benefit-pics-assists-conceptual.trycloudflare.com
+https://api.trycloudflare.com
