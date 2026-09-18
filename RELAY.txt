@@ -1,2 +1,2 @@
 # Current Dream Walk relay URL (may rotate; pull latest)
-https://recognition-coordinates-rotary-shape.trycloudflare.com
+https://worker-providers-ask-tablets.trycloudflare.com
