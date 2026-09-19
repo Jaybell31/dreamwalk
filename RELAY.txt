@@ -1,2 +1,2 @@
 # Current Dream Walk relay URL (may rotate; pull latest)
-https://worker-providers-ask-tablets.trycloudflare.com
+https://paintball-covered-drove-repairs.trycloudflare.com
